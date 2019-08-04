@@ -1,0 +1,66 @@
+/*
+Vars
+*/
+$black: #010000;
+$white: #ffffff;
+$lightGrey: #e6e6e6;
+$darkerGrey: rgb(219, 220, 223);
+$grey: grey;
+$darkGrey: #333;
+$red: #ff1755;
+$blue: rgba(113,133,172,1);
+$background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+$shadow: -5px -5px 10px rgb(96, 101, 107) inset;
+$linear: linear-gradient(to right, #f9d423 0%, #ff4e50 100%);
+
+/*
+Mixins
+*/
+
+@mixin translateY($e) {
+    -webkit-transform: translateY($e);
+    -moz-transform: translateY($e);
+    transform: translateY($e);
+}
+
+@mixin transition($e) {
+    -webkit-transition: $e;
+    -moz-transition: $e;
+    transition: $e;
+}
+
+
+
+/* Fonts - 
+
+regular 400
+regular 400 Italic
+bold 700
+bold 700 Italic
+
+*/
+
+body {
+    background-color: $blue;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    color: $black;
+    font-weight: 400;
+    font-style: normal;
+}
+
+a {
+    text-decoration: none;
+    @include transition(.4s ease-in-out);
+    cursor: pointer;
+
+    &:hover {
+        color: $blue;
+        @include transition(.4s ease-in-out);
+    }
+}
+
+.container-fluid {
+    line-height: 24px;
+}
+

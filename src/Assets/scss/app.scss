@@ -1,0 +1,167 @@
+@import "_config.scss";
+
+body {
+    margin: 0 !important;
+
+
+header {
+    position: relative;
+    display: block;
+    width: 100%;
+    background: $lightGrey;
+    color: $black;
+    height: 10vh;
+    box-shadow: $shadow;
+
+    // .logo {
+        
+    //     position: absolute;
+    //     top: 50%; left: 25px;
+    //     @include translateY(-50%);
+    // }
+
+    h1 {
+        text-align: center;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        padding-top: 5px;
+        color: $blue;
+        font-style: oblique;
+        font-weight: bold;
+    }
+
+    nav,
+    nav ul,
+    nav ul li {
+        margin: 0;
+        padding: 0;
+    }
+
+    nav {
+        position: absolute;
+        top: 50%; right: 15px;
+        @include translateY(-50%);
+
+        ul li {
+            list-style-type: none;
+            display: inline-block;
+            margin-right: 20px;
+
+            &.last {
+                margin: 10px;
+            }
+
+
+            a {
+                font-size: 19px;
+                line-height: normal;
+                color: $black;
+            }
+
+        }
+    }
+}
+
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    
+    .map {
+        height: 80vh;
+        width: 70%;
+        border-right: 3px solid grey;
+
+        // Info window container
+        .gm-style-iw-d {
+            div {
+                margin-bottom: 5px;
+            }
+        }
+
+    
+    }
+    
+    .item-list-container {
+        width: 30%;
+        height: 80vh;
+        overflow: scroll;
+        background-color: $blue;
+
+        a {
+            color: black;
+        }
+
+        .item-list-filter-container {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            box-sizing: border-box; 
+            box-shadow: $shadow;
+            margin-bottom: 5px;
+            padding: 0px 10px 10px 0px;
+            border: .1px transparent;
+            background-color: rgb(219, 220, 223);
+
+            .filter {
+                padding-left: 5px;
+                box-sizing: border-box; 
+    
+            }
+        }
+        
+        .item {
+            box-sizing: border-box;
+            box-shadow: -5px -5px 10px rgb(96, 101, 107) inset;
+            margin-bottom: 5px;
+            padding-top: 5px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            border: .1px transparent;
+            background-color: $lightGrey;
+
+            .item-rating {
+                display: inline-flex;
+
+                p {
+                    margin-bottom: 0;
+                }
+
+            }
+
+            .button-view-more {
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 10px;
+            }
+        }
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .input-field {
+        margin-right: 5px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    
+    #number-of-rates {
+        margin-top: 0;
+        margin-left: 5px;
+    }
+    
+    button {
+        display: block;
+    }
+}
+
+footer {
+    height: 10vh;
+    box-shadow: $shadow;
+    background-color: $lightGrey;
+}
+
+}
