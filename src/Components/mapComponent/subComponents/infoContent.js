@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 
 
 const InfoWindowContent = (props) => {
-    const { selectedRestaurant, onModalClick } = props
+    const { selectedRestaurant, onModalClick, userClicked } = props
         
     
     if (selectedRestaurant) {
@@ -30,6 +30,8 @@ const InfoWindowContent = (props) => {
 
             </div>
         )
+    } else if (userClicked) {
+        return <p>You are here!</p>
     } else {
         return (
             // New restaurants to add

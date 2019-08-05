@@ -13,12 +13,6 @@ header {
     height: 10vh;
     box-shadow: $shadow;
 
-    // .logo {
-        
-    //     position: absolute;
-    //     top: 50%; left: 25px;
-    //     @include translateY(-50%);
-    // }
 
     h1 {
         text-align: center;
@@ -79,6 +73,7 @@ main {
             }
         }
 
+        
     
     }
     
@@ -110,6 +105,7 @@ main {
             }
         }
         
+        
         .item {
             box-sizing: border-box;
             box-shadow: -5px -5px 10px rgb(96, 101, 107) inset;
@@ -137,10 +133,7 @@ main {
         }
     }
     
-    .modal-header {
-        display: flex;
-        justify-content: center;
-    }
+    
     
     .input-field {
         margin-right: 5px;
@@ -156,6 +149,11 @@ main {
     button {
         display: block;
     }
+}
+
+.modal-header-container {
+    justify-content: center;
+    
 }
 
 footer {

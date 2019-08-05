@@ -20,6 +20,7 @@ function NewGoogleMap(props) {
     const [center, setCenter] = useState({ lat: 51.7626, lng: -1.1986 })
     const [isMapClicked, setIsMapClicked] = useState(false)
     const [usersPosition, setUsersPosition] = useState(null)
+    const [userClicked, setUserClicked] = useState(false)
     const [selectedRestaurant, setSelectedRestaurant] = useState(null)
     // Adding new restaurant to the database
     const [restaurantName, setRestaurantName] = useState("")
@@ -98,6 +99,7 @@ function NewGoogleMap(props) {
         // Remember new coordinates
         setNewCoordinates(event.latLng.toJSON())
         setIsMapClicked(true)
+        setUserClicked(false)
     }
 
     // Info window handler
@@ -151,8 +153,14 @@ function NewGoogleMap(props) {
                 icon={user}
                 position={usersPosition}
                 animation={window.google.maps.Animation.DROP}
+                onClick={(e) => geoClickHandler(e)}
             />
         )
+    }
+    // Location click handler
+    const geoClickHandler = () => {
+        setUserClicked(true)
+        setIsMapClicked(true)
     }
 
 
@@ -164,7 +172,7 @@ function NewGoogleMap(props) {
 
 
     // Position of the info window
-    const infoWindowPosition = selectedRestaurant ? selectedRestaurant.position : newCoordinates
+    const infoWindowPosition = selectedRestaurant ? selectedRestaurant.position : userClicked ? usersPosition : newCoordinates
 
     
     // Modalcontent
@@ -215,6 +223,7 @@ function NewGoogleMap(props) {
                                 onCloseClick={handleCloseClick}
                             >
                                 <InfoWindowContent
+                                    userClicked={userClicked}
                                     selectedRestaurant={selectedRestaurant}
                                     setRestaurantName={e => setRestaurantName(e.target.value)}
                                     setAddress={e => setAddress(e.target.value)}

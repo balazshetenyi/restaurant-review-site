@@ -75,7 +75,9 @@ function MyModal(props) {
                         <div className="street-view-image-container">
                             { streetView ? <img src={streetView.url} alt="Street view of the restaurant"/> : <p>Loading..</p>}
                         </div>
-                        {title}
+                        <div className="modal-header-restaurant-name">
+                            {title}
+                        </div>
                     </div>
                 </Modal.Title>
             </Modal.Header>
