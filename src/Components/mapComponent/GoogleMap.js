@@ -198,7 +198,7 @@ function NewGoogleMap(props) {
                     <GoogleMap
                         onLoad={map => fetchPlaces(map)}
                         onCenterChanged={() => setCenter(mapRef.getCenter().toJSON())}
-                        center={usersPosition ? usersPosition : center}
+                        center={center}
                         zoom={13}
                         mapContainerClassName="map"
                         onClick={event => handleMapClick(event)}
