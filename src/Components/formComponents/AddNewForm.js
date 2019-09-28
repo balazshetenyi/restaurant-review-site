@@ -19,8 +19,8 @@ function AddNewForm(props) {
                     name="address"
                     placeholder="Address..."
                     value={props.address}
-                    onChange={props.setAddress}
-                    required
+                    // onChange={props.setAddress}
+                    // required
                 />
                 <div>
                 Your rating: {<StarRating 

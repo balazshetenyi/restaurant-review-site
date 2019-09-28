@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { useLoadScript, GoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
 import icon from '../../Assets/icons/iconfinder_Map-Marker-Bubble-Azure_73024.png'
 import user from '../../Assets/icons/iconfinder_map-marker_299087.png'
@@ -9,7 +9,7 @@ import ItemListFilter from '../itemListComponent/ItemListFilter'
 import MyModal from '../ModalComponent/Modal';
 
 // Google API Key
-const apiKey = "Your API Key here..."
+const apiKey = "AIzaSyCRW2D7OIkv7vkfdvoFkpH9vuB4wJeH4cQ"
 
 function NewGoogleMap(props) {
     // Database
@@ -78,10 +78,27 @@ function NewGoogleMap(props) {
         }
     }
 
+    
+    // Reverse geolocation to retrieve
+    const geoCodeLatLng = (map, latLng) => {
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({'location': latLng}, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    setAddress(results[0].formatted_address)
+                } else {
+                    console.log(results)
+                }
+            } else {
+                console.log(status)
+            }
+        })
+    }
 
+    
     // Marker clickhandler
     const handleMarkerClick = (event, rest) => {
-        // If we clicked on the map but we just want to click on a marker instead
+        // If we clicked on the map, but we just want to click on a marker instead
         if (newCoordinates) {
             setNewCoordinates(null)
         }
@@ -89,18 +106,24 @@ function NewGoogleMap(props) {
         setSelectedRestaurant(rest)
         setIsMapClicked(true)
     }
-
+    
     // Map click handler
     const handleMapClick = (event) => {
+        // If we clicked on a marker, but we just want to click on the map instead
         if (selectedRestaurant) {
             setSelectedRestaurant(null)
             setNewCoordinates(null)
         }
         // Remember new coordinates
         setNewCoordinates(event.latLng.toJSON())
+        geoCodeLatLng(mapRef, newCoordinates)
         setIsMapClicked(true)
         setUserClicked(false)
     }
+
+    useEffect(() => {
+        console.log(address);
+    }, [address])
 
     // Info window handler
     const handleCloseClick = () => {
@@ -138,7 +161,7 @@ function NewGoogleMap(props) {
     }
 
     // Geolocation --- user's location
-    const geo = () => {
+    const locateUser = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(pos => {
                 const position = {
@@ -180,7 +203,7 @@ function NewGoogleMap(props) {
         setModalShow(true)
         setSelectedRestaurant(restaurant)
         // Fetching Street view image
-        fetch(`https://maps.googleapis.com/maps/api/streetview?size=360x240&location=${restaurant.address}&key=AIzaSyB544WTQdJXcToIRGRbIlJWWM4VlDOGck8`)
+        fetch(`https://maps.googleapis.com/maps/api/streetview?size=360x240&location=${restaurant.address}&key=AIzaSyCRW2D7OIkv7vkfdvoFkpH9vuB4wJeH4cQ`)
             .then(res => setStreetView(res))
     }
 
@@ -196,14 +219,18 @@ function NewGoogleMap(props) {
         return (
             <Fragment>
                     <GoogleMap
-                        onLoad={map => fetchPlaces(map)}
+                        onLoad={map => {
+                            setMapRef(map)
+                            fetchPlaces(map)
+                        }}
                         onCenterChanged={() => setCenter(mapRef.getCenter().toJSON())}
-                        center={center}
+                        center={usersPosition ? usersPosition : center}
                         zoom={13}
                         mapContainerClassName="map"
-                        onClick={event => handleMapClick(event)}
+                        onClick={(event, map) => handleMapClick(event, map)}
                         options={{streetViewControl: true}}
-                    >
+                        >
+                        {locateUser()}
 
                         {restaurants.map(rest => (
                             <Marker
@@ -235,7 +262,6 @@ function NewGoogleMap(props) {
                             </InfoWindow>
                         )}
 
-                        {geo()}
 
                     </GoogleMap>
 
