@@ -24,8 +24,8 @@ function NewGoogleMap(props) {
     const [selectedRestaurant, setSelectedRestaurant] = useState(null)
     // Adding new restaurant to the database
     const [restaurantName, setRestaurantName] = useState("")
-    const [address, setAddress] = useState("")
     const [newCoordinates, setNewCoordinates] = useState(null)
+    const [address, setAddress] = useState("")
     const [newRating, setNewRating] = useState(null)
     const [comment, setComment] = useState("")
     // Filtering
@@ -34,12 +34,15 @@ function NewGoogleMap(props) {
     const [modalShow, setModalShow] = useState(false)
     const [streetView, setStreetView] = useState(null)
 
-
     // Load google maps scripts
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: apiKey,
         libraries: libraries
     })
+
+    useEffect(() => {
+        console.log(address);
+    }, [address])
 
 
     // Places request
@@ -80,19 +83,19 @@ function NewGoogleMap(props) {
 
     
     // Reverse geolocation to retrieve
-    const geoCodeLatLng = (map, latLng) => {
+    const geoCodeLatLng = async (map, latLng) => {
         const geocoder = new window.google.maps.Geocoder();
-        geocoder.geocode({'location': latLng}, function(results, status) {
-            if (status === 'OK') {
-                if (results[0]) {
-                    setAddress(results[0].formatted_address)
+            await geocoder.geocode({'location': latLng}, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        setAddress(results[0].formatted_address)
+                    } else {
+                        console.log(results)
+                    }
                 } else {
-                    console.log(results)
+                    console.log(status)
                 }
-            } else {
-                console.log(status)
-            }
-        })
+            })
     }
 
     
@@ -108,7 +111,7 @@ function NewGoogleMap(props) {
     }
     
     // Map click handler
-    const handleMapClick = (event) => {
+    const handleMapClick = (event, map) => {
         // If we clicked on a marker, but we just want to click on the map instead
         if (selectedRestaurant) {
             setSelectedRestaurant(null)
@@ -116,14 +119,11 @@ function NewGoogleMap(props) {
         }
         // Remember new coordinates
         setNewCoordinates(event.latLng.toJSON())
-        geoCodeLatLng(mapRef, newCoordinates)
+        geoCodeLatLng(mapRef, event.latLng.toJSON())
         setIsMapClicked(true)
         setUserClicked(false)
     }
 
-    useEffect(() => {
-        console.log(address);
-    }, [address])
 
     // Info window handler
     const handleCloseClick = () => {
@@ -131,12 +131,13 @@ function NewGoogleMap(props) {
         setIsMapClicked(false)
         setSelectedRestaurant(null)
         setNewCoordinates(null)
+        setAddress('')
     }
     
     // Handling form submit
     const handleFormSubmit = (e) => {
         e.preventDefault()
-        if (restaurantName && address && newRating) {
+        if (restaurantName && newRating) {
             // New object to be pushed
             const newRestaurantDetails = {
                 restaurantName: restaurantName,
@@ -219,12 +220,9 @@ function NewGoogleMap(props) {
         return (
             <Fragment>
                     <GoogleMap
-                        onLoad={map => {
-                            setMapRef(map)
-                            fetchPlaces(map)
-                        }}
+                        onLoad={map => fetchPlaces(map)}
                         onCenterChanged={() => setCenter(mapRef.getCenter().toJSON())}
-                        center={usersPosition ? usersPosition : center}
+                        center={center}
                         zoom={13}
                         mapContainerClassName="map"
                         onClick={(event, map) => handleMapClick(event, map)}
@@ -253,7 +251,7 @@ function NewGoogleMap(props) {
                                     userClicked={userClicked}
                                     selectedRestaurant={selectedRestaurant}
                                     setRestaurantName={e => setRestaurantName(e.target.value)}
-                                    setAddress={e => setAddress(e.target.value)}
+                                    setAddress={address}
                                     onRatingChanged={r => setNewRating(r)}
                                     setComment={e => setComment(e.target.value)}
                                     onSubmit={handleFormSubmit}

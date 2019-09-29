@@ -43,7 +43,7 @@ const InfoWindowContent = (props) => {
                     onSubmit={props.onSubmit}
                     onRatingChanged={props.onRatingChanged}
                     setComment={props.setComment}
-                    address={props.address}
+                    address={props.setAddress}
                 />
             </div>
         )
