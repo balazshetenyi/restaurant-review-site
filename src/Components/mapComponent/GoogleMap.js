@@ -140,6 +140,7 @@ function NewGoogleMap(props) {
         if (restaurantName && newRating) {
             // New object to be pushed
             const newRestaurantDetails = {
+                key: address,
                 restaurantName: restaurantName,
                 address: address,
                 position: newCoordinates,
@@ -201,6 +202,8 @@ function NewGoogleMap(props) {
     
     // Modalcontent
     const clickHandler = (restaurant) => {
+        setIsMapClicked(false)
+        setAddress(null)
         setModalShow(true)
         setSelectedRestaurant(restaurant)
         // Fetching Street view image
@@ -247,6 +250,7 @@ function NewGoogleMap(props) {
                                 position={infoWindowPosition}
                                 onCloseClick={handleCloseClick}
                             >
+                            
                                 <InfoWindowContent
                                     userClicked={userClicked}
                                     selectedRestaurant={selectedRestaurant}
