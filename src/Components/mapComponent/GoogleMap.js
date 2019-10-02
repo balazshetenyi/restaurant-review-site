@@ -20,6 +20,7 @@ function NewGoogleMap(props) {
     const [center, setCenter] = useState({ lat: 51.7626, lng: -1.1986 })
     const [isMapClicked, setIsMapClicked] = useState(false)
     const [usersPosition, setUsersPosition] = useState(null)
+    const [placesAroundUser, setPlacesAroundUser] = useState(null)
     const [userClicked, setUserClicked] = useState(false)
     const [selectedRestaurant, setSelectedRestaurant] = useState(null)
     // Adding new restaurant to the database
@@ -40,21 +41,17 @@ function NewGoogleMap(props) {
         libraries: libraries
     })
 
-    useEffect(() => {
-        console.log(address);
-    }, [address])
-
-
+    
     // Places request
     const fetchPlaces = (map) => {
         setMapRef(map)
-
+        
         var request = {
-            location: usersPosition ? usersPosition : center,
+            location: usersPosition,
             radius: '4500',
             type: ['restaurant']
         };
-
+        
         var service = new window.google.maps.places.PlacesService(map);
         service.nearbySearch(request, callback);
     }
@@ -80,6 +77,15 @@ function NewGoogleMap(props) {
             })
         }
     }
+    
+
+    useEffect(() => {
+        if (usersPosition) {
+            setCenter(usersPosition)
+            fetchPlaces(mapRef)
+        }
+            setPlacesAroundUser(restaurants)
+    }, [usersPosition])
 
     
     // Reverse geolocation to retrieve
@@ -223,7 +229,7 @@ function NewGoogleMap(props) {
         return (
             <Fragment>
                     <GoogleMap
-                        onLoad={map => fetchPlaces(map)}
+                        onLoad={map => setMapRef(map)}
                         onCenterChanged={() => setCenter(mapRef.getCenter().toJSON())}
                         center={center}
                         zoom={13}
@@ -273,7 +279,7 @@ function NewGoogleMap(props) {
                     />
 
                     <ItemList
-                        item={restaurants}
+                        item={placesAroundUser}
                         filter={filterValue}
                         onModalClick={clickHandler}
                     />
