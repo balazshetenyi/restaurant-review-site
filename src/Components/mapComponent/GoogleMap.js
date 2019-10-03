@@ -20,9 +20,9 @@ function NewGoogleMap(props) {
     const [center, setCenter] = useState({ lat: 51.7626, lng: -1.1986 })
     const [isMapClicked, setIsMapClicked] = useState(false)
     const [usersPosition, setUsersPosition] = useState(null)
-    const [placesAroundUser, setPlacesAroundUser] = useState(null)
     const [userClicked, setUserClicked] = useState(false)
     const [selectedRestaurant, setSelectedRestaurant] = useState(null)
+    const [pindropping, setpindropping] = useState(false)
     // Adding new restaurant to the database
     const [restaurantName, setRestaurantName] = useState("")
     const [newCoordinates, setNewCoordinates] = useState(null)
@@ -42,12 +42,17 @@ function NewGoogleMap(props) {
     })
 
     
-    // Places request
-    const fetchPlaces = (map) => {
+    const handleMapLoad = (map) => {
         setMapRef(map)
+        locateUser()
+    }
+
+    
+    // Places request
+    const fetchPlaces = (map, pos) => {
         
         var request = {
-            location: usersPosition,
+            location: pos,
             radius: '4500',
             type: ['restaurant']
         };
@@ -55,9 +60,9 @@ function NewGoogleMap(props) {
         var service = new window.google.maps.places.PlacesService(map);
         service.nearbySearch(request, callback);
     }
-    function callback(results, status) {
+    async function callback(results, status) {
         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            results.forEach(element => {
+            await results.forEach(element => {
                 const newPlace = {
                     key: element.id,
                     restaurantName: element.name,
@@ -74,18 +79,18 @@ function NewGoogleMap(props) {
                     ]
                 }
                 restaurants.push(newPlace)
+                setpindropping(true)
+                setpindropping(false)
             })
         }
     }
     
-
     useEffect(() => {
         if (usersPosition) {
             setCenter(usersPosition)
-            fetchPlaces(mapRef)
+            fetchPlaces(mapRef, usersPosition)
         }
-            setPlacesAroundUser(restaurants)
-    }, [usersPosition])
+    }, [restaurants, usersPosition])
 
     
     // Reverse geolocation to retrieve
@@ -179,6 +184,9 @@ function NewGoogleMap(props) {
                 setUsersPosition(position)
             })
         }
+    }
+
+    const dropPinToUser = () => {
         return (
             <Marker
                 icon={user}
@@ -188,6 +196,7 @@ function NewGoogleMap(props) {
             />
         )
     }
+
     // Location click handler
     const geoClickHandler = () => {
         setUserClicked(true)
@@ -229,7 +238,7 @@ function NewGoogleMap(props) {
         return (
             <Fragment>
                     <GoogleMap
-                        onLoad={map => setMapRef(map)}
+                        onLoad={map => handleMapLoad(map)}
                         onCenterChanged={() => setCenter(mapRef.getCenter().toJSON())}
                         center={center}
                         zoom={13}
@@ -237,24 +246,26 @@ function NewGoogleMap(props) {
                         onClick={(event, map) => handleMapClick(event, map)}
                         options={{streetViewControl: true}}
                         >
-                        {locateUser()}
+                    
+                    {dropPinToUser()}
 
-                        {restaurants.map(rest => (
-                            <Marker
-                                className="icon"
-                                icon={icon}
-                                key={rest.key}
-                                position={rest.position}
-                                animation={window.google.maps.Animation.DROP}
-                                onClick={event => handleMarkerClick(event, rest)}
-                            />
-                        ))}
 
+                    {restaurants.map(rest => (
+                        <Marker
+                            className="icon"
+                            icon={icon}
+                            key={rest.key}
+                            position={rest.position}
+                            animation={window.google.maps.Animation.DROP}
+                            onClick={event => handleMarkerClick(event, rest)}
+                        />
+                        
+                    ))}
 
                         {isMapClicked && (
                             <InfoWindow
-                                position={infoWindowPosition}
-                                onCloseClick={handleCloseClick}
+                            position={infoWindowPosition}
+                            onCloseClick={handleCloseClick}
                             >
                             
                                 <InfoWindowContent
@@ -266,7 +277,7 @@ function NewGoogleMap(props) {
                                     setComment={e => setComment(e.target.value)}
                                     onSubmit={handleFormSubmit}
                                     onModalClick={clickHandler}
-                                />
+                                    />
                             </InfoWindow>
                         )}
 
@@ -279,7 +290,7 @@ function NewGoogleMap(props) {
                     />
 
                     <ItemList
-                        item={placesAroundUser}
+                        item={restaurants}
                         filter={filterValue}
                         onModalClick={clickHandler}
                     />
@@ -296,7 +307,7 @@ function NewGoogleMap(props) {
         )
     }
 
-    return isLoaded ? renderMap() : usersPosition ? renderMap() : <p>Loading...</p>
+    return isLoaded ? renderMap() : <p>Loading...</p>
 }
 
 export default NewGoogleMap
