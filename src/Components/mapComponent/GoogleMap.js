@@ -9,7 +9,9 @@ import ItemListFilter from '../itemListComponent/ItemListFilter'
 import MyModal from '../ModalComponent/Modal';
 
 // Google API Key
-const apiKey = "AIzaSyAyTBx6xeYmV_AHtaV2-ZwR39UF5Q-Yucw"
+
+const apiKey = "YOUR GOOGLE API KEY HERE..."
+
 
 function NewGoogleMap(props) {
     // Database
