@@ -6,7 +6,7 @@ class Header extends React.Component {
             <header className="Header">
 
                 <div className="logo">
-                    <h1 className="title">Restaurant review site</h1>
+                    <h1 className="title">Restaurant Review App</h1>
                 </div>
 
                 <nav>
