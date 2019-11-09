@@ -17,10 +17,10 @@ function AddNewForm(props) {
                     className="input-field"
                     type="text"
                     name="address"
-                    placeholder="Address..."
-                    value={props.address}
-                    onChange={props.setAddress}
-                    required
+                    placeholder={props.setAddress}
+                    defaultValue={props.setAddress}
+                    // onChange={props.setAddress}
+                    // required
                 />
                 <div>
                 Your rating: {<StarRating 

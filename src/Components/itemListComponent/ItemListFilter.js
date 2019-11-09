@@ -11,10 +11,10 @@ function ItemListFilter(props) {
                 className="filter"
             >
                 <option value={""}>Show all</option>
-                <option value="5">5 stars only</option>
-                <option value="4">4 stars only</option>
-                <option value="3">3 stars only</option>
-                <option value="2">2 stars only</option>
+                <option value="5">4 - 5 stars</option>
+                <option value="4">3 - 4 stars</option>
+                <option value="3">2 - 3 stars</option>
+                <option value="2">1 - 2 stars</option>
                 <option value="1">1 star only</option>
             </select>
 

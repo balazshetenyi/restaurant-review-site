@@ -6,14 +6,14 @@ import Button from 'react-bootstrap/Button'
 function ItemList(props) {
 
     const {item, filter} = props
-
+    
     return item.map(restaurant => {
         // Stars and comments array
         const starArrays = restaurant.ratings.filter(star => star.stars)
         // Only the stars
         const numbers = starArrays.map(star => star.stars)
         // Get the average rating
-        const average = numbers.reduce((a, b) => a + b) / numbers.length
+        const average = numbers.reduce((a, b) => a + b, 0) / numbers.length
 
         const itemContainer = () => {
             const comment = restaurant.ratings[0].comment
@@ -45,7 +45,7 @@ function ItemList(props) {
         }
 
         const withFilter = (func) => {
-            if ((average - filter) >= -.5 && (average - filter) < .5) {
+            if ((average - filter) >= -.9 && (average - filter) < .1) {
                 return func
             }
         }
