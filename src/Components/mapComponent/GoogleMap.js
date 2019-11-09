@@ -224,7 +224,7 @@ function NewGoogleMap(props) {
         setModalShow(true)
         setSelectedRestaurant(restaurant)
         // Fetching Street view image
-        fetch(`https://maps.googleapis.com/maps/api/streetview?size=360x240&location=${restaurant.address}&key=AIzaSyAyTBx6xeYmV_AHtaV2-ZwR39UF5Q-Yucw`)
+        fetch(`https://maps.googleapis.com/maps/api/streetview?size=360x240&location=${restaurant.address}&key=APIKEY-HERE...`)
             .then(res => setStreetView(res))
     }
 
