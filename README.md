@@ -8,5 +8,6 @@ By clicking on the map, you can add your favourite restaurant, if it isn't on th
 To add a new review, you will have to click "View more" in the list view in order to see more reviews, and then the "Add new" button to add your rating and comment.
 
 
+[Link to demo video](https://drive.google.com/file/d/1sF3lOHU-C87v2t9SExshXfSVynu8IURQ/view)
 
 ![demo picture](/image/restaurant-app.jpg)
