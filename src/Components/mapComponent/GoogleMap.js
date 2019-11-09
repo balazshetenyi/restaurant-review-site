@@ -9,7 +9,7 @@ import ItemListFilter from '../itemListComponent/ItemListFilter'
 import MyModal from '../ModalComponent/Modal';
 
 // Google API Key
-const apiKey = "AIzaSyCRW2D7OIkv7vkfdvoFkpH9vuB4wJeH4cQ"
+const apiKey = "AIzaSyAyTBx6xeYmV_AHtaV2-ZwR39UF5Q-Yucw"
 
 function NewGoogleMap(props) {
     // Database
@@ -222,7 +222,7 @@ function NewGoogleMap(props) {
         setModalShow(true)
         setSelectedRestaurant(restaurant)
         // Fetching Street view image
-        fetch(`https://maps.googleapis.com/maps/api/streetview?size=360x240&location=${restaurant.address}&key=AIzaSyCRW2D7OIkv7vkfdvoFkpH9vuB4wJeH4cQ`)
+        fetch(`https://maps.googleapis.com/maps/api/streetview?size=360x240&location=${restaurant.address}&key=AIzaSyAyTBx6xeYmV_AHtaV2-ZwR39UF5Q-Yucw`)
             .then(res => setStreetView(res))
     }
 
