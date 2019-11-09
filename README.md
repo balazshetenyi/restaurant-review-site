@@ -9,5 +9,4 @@ To add a new review, you will have to click "View more" in the list view in orde
 
 
 
-![demo video](/image/restaurant-app.gif)
 ![demo picture](/image/restaurant-app.jpg)
