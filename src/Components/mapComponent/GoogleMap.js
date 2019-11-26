@@ -10,7 +10,7 @@ import MyModal from '../ModalComponent/Modal';
 
 // Google API Key
 
-const apiKey = "YOUR GOOGLE API KEY HERE..."
+const apiKey = "AIzaSyAyTBx6xeYmV_AHtaV2-ZwR39UF5Q-Yucw"
 
 
 function NewGoogleMap(props) {
@@ -224,7 +224,7 @@ function NewGoogleMap(props) {
         setModalShow(true)
         setSelectedRestaurant(restaurant)
         // Fetching Street view image
-        fetch(`https://maps.googleapis.com/maps/api/streetview?size=360x240&location=${restaurant.address}&key=APIKEY-HERE...`)
+        fetch(`https://maps.googleapis.com/maps/api/streetview?size=360x240&location=${restaurant.address}&key=AIzaSyAyTBx6xeYmV_AHtaV2-ZwR39UF5Q-Yucw`)
             .then(res => setStreetView(res))
     }
 

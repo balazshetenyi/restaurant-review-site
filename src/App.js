@@ -4,9 +4,7 @@ import data from '../src/Assets/RestaurantsData/restaurants.json'
 
 
 // Components
-import Header from './Components/headerComponent/header'
 import NewGoogleMap from "./Components/mapComponent/GoogleMap"
-import Footer from './Components/footerComponent/footer'
 
 
 function App() {
@@ -15,17 +13,11 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <Header />
-      </header>
       <main>
         <NewGoogleMap 
           restaurants={restaurants}
         />
       </main>
-      <footer>
-        <Footer />
-      </footer>
     </div>
   );
 }
